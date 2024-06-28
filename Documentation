@@ -1,0 +1,95 @@
+Documentation: Pseudo-Random Password Generator
+Overview
+This Python script generates a pseudo-random password based on user-defined requirements for uppercase letters, lowercase letters, digits, and special characters. It does not use any libraries for randomization but relies on the id() function for creating pseudo-random indices.
+
+Components
+Character Sets:
+
+The script defines four character sets:
+uppercase_letters: List of uppercase alphabet letters.
+lowercase_letters: List of lowercase alphabet letters.
+digits: List of numerical digits from 0 to 9.
+special_cases: List of special characters.
+User Input:
+
+The script prompts the user to input the required number of characters for each category (uppercase letters, lowercase letters, digits, and special characters).
+Password Generation:
+
+The script generates a password by selecting characters from each category using a pseudo-random index created by the createRandom function.
+Selected characters are removed from their respective lists to avoid duplicates within the chosen category.
+Password Shuffling:
+
+After generating the list of selected characters, the script further shuffles these characters to ensure randomness in the final password.
+Detailed Explanation
+Function Definition
+python
+Copy code
+def createRandom(length):
+    return id(length) % len(length)
+Purpose: Generates a pseudo-random index.
+Parameters:
+length: A list whose length is used to determine the modulo value for the random index.
+Returns: An index computed using the id() function modulo the length of the list. The id() function returns a unique identifier for the given object, which changes when called with different objects or at different times, providing a semblance of randomness.
+Character Lists
+python
+Copy code
+uppercase_letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
+lowercase_letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']
+digits = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
+special_cases = ['@', '!', '#', '$', '%', '^', '&', '&']
+Purpose: These lists contain the pool of characters from which the password will be constructed.
+User Input
+python
+Copy code
+uprCasesReq = int(input('What are the number of uppercase letters you need : '))
+lwrCasesReq = int(input('What are the number of lowercase letters you need : '))
+digitsReq = int(input('What are the number of digits you need : '))
+spclCasesReq = int(input('What are the number of special case characters you need : '))
+Purpose: Collect the number of characters of each type the user wants in the password.
+Input: The number of uppercase letters, lowercase letters, digits, and special characters.
+Password Construction
+python
+Copy code
+password = []
+
+for x in range(0, int(uprCasesReq) - 1):
+    password += uppercase_letters[createRandom(length=uppercase_letters)]
+    uppercase_letters.remove(uppercase_letters[createRandom(length=uppercase_letters)])
+
+for x in range(0, int(lwrCasesReq) - 1):
+    password += lowercase_letters[createRandom(length=lowercase_letters)]
+    lowercase_letters.remove(lowercase_letters[createRandom(length=lowercase_letters)])
+
+for x in range(0, int(digitsReq) - 1):
+    password += digits[createRandom(length=digits)]
+    digits.remove(digits[createRandom(length=digits)])
+
+for x in range(0, int(spclCasesReq) - 1):
+    password += special_cases[createRandom(length=special_cases)]
+    special_cases.remove(special_cases[createRandom(length=special_cases)])
+Purpose: Build the password by randomly selecting characters from each category.
+Logic:
+Loop through the required number of characters for each category.
+Use the createRandom function to get a pseudo-random index to select a character.
+Append the selected character to the password list.
+Remove the character from the original list to avoid duplication within the category.
+Password Shuffling
+python
+Copy code
+final_password = ""
+for x in range(0, len(password)):
+    final_password += password[createRandom(password)]
+    password.remove(password[createRandom(password)])
+print(final_password)
+Purpose: Shuffle the password list to ensure additional randomness in the final password.
+Logic:
+Loop through the list of selected characters.
+Use the createRandom function to get a pseudo-random index to select a character from the password list.
+Append the character to the final_password string.
+Remove the character from the list to prevent re-selection.
+Output: The final shuffled password is printed to the console.
+Notes
+Pseudo-Randomness: The createRandom function uses the id() function and modulo operation to generate indices. While this provides a semblance of randomness, it is not truly random and not suitable for secure password generation.
+Avoiding Libraries: The entire script operates without importing any external libraries, adhering to the requirement of not using the random library or any other modules.
+Conclusion
+This script provides a way to generate a pseudo-random password based on user specifications for character types and quantities, using built-in Python functions to simulate randomness and shuffling.
